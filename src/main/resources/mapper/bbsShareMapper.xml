@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs_test">
+
+	<select id="all" resultType="bbsShareVO">
+		select *
+		from bbs_test
+	</select>
+	
+	<select id="one" parameterType="int" resultType="bbsShareVO">
+		select *
+		from bbs_test
+		where no = #{no}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
