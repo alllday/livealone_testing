@@ -12,7 +12,7 @@
 <script type="text/javascript" src="resources/js/webSocketSendToUserApp.js"></script>
 <script type="text/javascript">
 	var stompClient = null;
-	var roomId = ${roomInfo.roomId};
+	var roomNo = ${roomInfo.roomNo};
 	var nowSession = "${id}";
 	var requestor = "${roomInfo.chatRequestor}";
 	var receiver = "${roomInfo.chatReceiver}";
@@ -24,7 +24,7 @@
 
 	//3. 채팅방 지정하여 가입하자.
 	stompClient.connect({}, function() {
-		stompClient.subscribe("/topic/" + roomId, function(messageOutput) {
+		stompClient.subscribe("/topic/" + roomNo, function(messageOutput) {
 			//서버에서 받은 메시지 출력 
 			showMessageOutput(JSON.parse(messageOutput.body));
 		})
@@ -35,8 +35,8 @@
 	function sendMessage() {
 		//url을 /app/cht을 호출하고,data를 json형태의 sring으로 만들어서 보내라. 
 		// /chat2처럼 하위를 무조건 써줘야 함 이유는 모름.. + /app은 생략가능 마찬가지로 이유는 모름
-		stompClient.send("/app/chat2/" + roomId, {}, JSON.stringify({ 
-			'roomId' : ${roomInfo.roomId},
+		stompClient.send("/app/chat2/" + roomNo, {}, JSON.stringify({ 
+			'roomNo' : ${roomInfo.roomNo},
 			'sender' : "${id}", // -> "" 안해주면 변수로 처리!
 			'content' : $('#message').val()
 		}));
@@ -75,19 +75,10 @@
 		    	requestor : requestor,
 		    	receiver : receiver,
 		    	nowSession : nowSession,
-		    	roomId : roomId
+		    	roomNo : roomNo
 		    },  // 전송할 데이터를 JSON 형태로 변환
-		    success: function(code) {
-		    	if(code == 1){
-		    		$('#requestor').text("거래완료");	
-		    	}
-		    	else if(code == 2){
-		    		$('#receiver').text("거래완료");
-		    	}
-		    	else if(code == 3){
-		    		$('#requestor').text("거래완료");
-		    		$('#receiver').text("거래완료");
-		    	}
+		    success: function(x) {
+		    	$('#state').text("거래수락");
 		      // 요청이 성공했을 때 실행되는 콜백 함수
 		      // 서버에서 반환한 응답 데이터를 처리
 		    },
@@ -114,8 +105,9 @@
 	<div id="conversationDiv">
 		<input type="text" id="message" onkeyup="enter();" placeholder="Write a message..." />
 		<button id="sendMessage" onclick="sendMessage();">Send</button>
-		<span id="requestor">requestor 거래중</span>
-		<span id="receiver">receiver 거래중</span>
+		<span id="state">
+		거래중
+		</span>
 
 		<!-- 메시지리스트 받아오기 -->
 		<p id="response">

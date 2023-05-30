@@ -38,14 +38,14 @@ public class ChatRoomShareDAO {
 		return bag2;
 	}
 	
-	public ChatRoomShareVO one_roomId(ChatRoomShareVO bag) {
-		ChatRoomShareVO bag2 = my.selectOne("chatroomshare.one_roomId", bag);
+	public ChatRoomShareVO one_roomNo(ChatRoomShareVO bag) {
+		ChatRoomShareVO bag2 = my.selectOne("chatroomshare.one_roomNo", bag);
 		return bag2;
 	}
 	
 	// 채팅방 메시지 리스트
-	public List<MessageShareVO> messageList(int roomId){
-		List<MessageShareVO> list = my.selectList("chatroomshare.message", roomId);
+	public List<MessageShareVO> messageList(int roomNo){
+		List<MessageShareVO> list = my.selectList("chatroomshare.message", roomNo);
 		System.out.println("메시지 개수 : " + list.size());
 		return list;
 	}
