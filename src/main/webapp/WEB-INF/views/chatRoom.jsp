@@ -16,6 +16,7 @@
 	var nowSession = "${id}";
 	var requestor = "${roomInfo.chatRequestor}";
 	var receiver = "${roomInfo.chatReceiver}";
+	var chatcode = ${roomInfo.chatCode};
 
 	//1. 소켓객체 생성
 	var socket = new SockJS('${pageContext.request.contextPath}/chat');
@@ -106,8 +107,25 @@
 		<input type="text" id="message" onkeyup="enter();" placeholder="Write a message..." />
 		<button id="sendMessage" onclick="sendMessage();">Send</button>
 		<span id="state">
-		거래중
+			<c:choose>
+				<c:when test="${roomInfo.chatCode eq 1 && roomInfo.chatRequestor eq id}">
+					거래수락
+				</c:when>
+				
+				<c:when test="${roomInfo.chatCode eq 2 && roomInfo.chatReceiver eq id}">
+					거래수락
+				</c:when>
+				
+				<c:when test="${roomInfo.chatCode eq 3}">
+					거래수락
+				</c:when>
+				
+				<c:otherwise>
+					거래중
+				</c:otherwise>
+			</c:choose>
 		</span>
+		
 
 		<!-- 메시지리스트 받아오기 -->
 		<p id="response">
